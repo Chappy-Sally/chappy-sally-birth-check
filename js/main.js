@@ -32,6 +32,10 @@ function resetDiagnosis() {
   document.getElementById("resultArea").classList.add("hidden");
   document.getElementById("birthdate").value = "";
   resetCells();
+
+  const subBox = document.getElementById("subTypes");
+  if (subBox) subBox.innerHTML = "";
+
   window.scrollTo({ top: 0, behavior: "smooth" });
 }
 
@@ -97,7 +101,6 @@ function resetCells() {
 
 function getArrows(digits) {
   const unique = [...new Set(digits)];
-
   const arrows = ["123", "456", "789", "147", "258", "369", "159", "357"];
 
   return arrows.filter(arrow => {
@@ -114,6 +117,8 @@ function showPitagoras(digits, arrows) {
 
   const subBox = document.getElementById("subTypes");
   subBox.innerHTML = "";
+
+  showNumberMeanings(digits, subBox);
 
   if (arrows.length > 1) {
     const title = document.createElement("h3");
@@ -134,6 +139,57 @@ function showPitagoras(digits, arrows) {
       subBox.appendChild(div);
     });
   }
+}
+
+function showNumberMeanings(digits, targetBox) {
+  const counts = {};
+
+  digits.forEach(num => {
+    counts[num] = (counts[num] || 0) + 1;
+  });
+
+  const title = document.createElement("h3");
+  title.textContent = "🔢出ている数字の意味";
+  targetBox.appendChild(title);
+
+  Object.keys(counts).sort().forEach(num => {
+    const data = numberMeanings[num];
+    if (!data) return;
+
+    const div = document.createElement("div");
+    div.className = "sub-type-box";
+
+    let strengthText = "";
+    if (counts[num] >= 3) {
+      strengthText = "この数字が3つ以上あるので、この力が強めに出やすいかもしれません。";
+    } else if (counts[num] === 2) {
+      strengthText = "この数字が2つあるので、この力が少し出やすいかもしれません。";
+    } else {
+      strengthText = "この数字の力を持っています。";
+    }
+
+    div.innerHTML = `
+      <strong>${num}｜${data.word}</strong>
+      <p>${data.text}</p>
+      <p class="small">${strengthText}</p>
+    `;
+
+    targetBox.appendChild(div);
+  });
+
+  const maxCount = Math.max(...Object.values(counts));
+  const balance = document.createElement("div");
+  balance.className = "sub-type-box";
+
+  if (maxCount >= 3) {
+    balance.innerHTML = `<p>${numberBalanceMessages.high}</p>`;
+  } else if (maxCount === 2) {
+    balance.innerHTML = `<p>${numberBalanceMessages.middle}</p>`;
+  } else {
+    balance.innerHTML = `<p>${numberBalanceMessages.low}</p>`;
+  }
+
+  targetBox.appendChild(balance);
 }
 
 function showBoss(arrows) {
