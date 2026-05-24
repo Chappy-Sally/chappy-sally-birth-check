@@ -1,1 +1,123 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+<title>チャッピー＆サリーのしあわせナビ</title>
+
+<link rel="stylesheet" href="style.css">
+
+</head>
+<body>
+
+<div class="wrap">
+
+  <!-- TOP -->
+  <div class="card">
+
+    <img src="images/top.png" class="topImage">
+
+    <h1>
+      チャッピー＆サリーの<br>
+      しあわせナビ🌈
+    </h1>
+
+    <p class="sub">
+      生まれ持った<br>
+      あなたのやさしい力を<br>
+      見つけてみよう🐶💕
+    </p>
+
+    <input type="date" id="birthdate">
+
+    <button onclick="startDiagnosis()">
+      診断スタート✨
+    </button>
+
+  </div>
+
+  <!-- RESULT -->
+  <div id="resultArea" class="hidden">
+
+    <!-- 星座 -->
+    <div class="card">
+
+      <h2>🌟あなたの星座</h2>
+
+      <img id="zodiacImage" class="zodiacImage">
+
+      <p id="zodiacText"></p>
+
+    </div>
+
+    <!-- 9マス -->
+    <div class="card">
+
+      <h2>🌿9マス診断</h2>
+
+      <div class="grid">
+
+        <div id="n1" class="cell">1</div>
+        <div id="n2" class="cell">2</div>
+        <div id="n3" class="cell">3</div>
+
+        <div id="n4" class="cell">4</div>
+        <div id="n5" class="cell">5</div>
+        <div id="n6" class="cell">6</div>
+
+        <div id="n7" class="cell">7</div>
+        <div id="n8" class="cell">8</div>
+        <div id="n9" class="cell">9</div>
+
+      </div>
+
+      <h3 id="mainType"></h3>
+
+      <p id="pitagorasText"></p>
+
+    </div>
+
+    <!-- ラスボス -->
+    <div class="card">
+
+      <h2>🐶今のラスボス</h2>
+
+      <p id="bossText"></p>
+
+    </div>
+
+    <!-- ヒント -->
+    <div class="card">
+
+      <h2>✨しあわせヒント</h2>
+
+      <p id="hintText"></p>
+
+    </div>
+
+    <!-- 導線 -->
+    <div class="card">
+
+      <p class="nextText">
+        もっとやさしく<br>
+        自分を整理したい人へ🌿
+      </p>
+
+      <a href="https://lit.link/chappysally" target="_blank">
+        <button>
+          マスター編を見る✨
+        </button>
+      </a>
+
+    </div>
+
+  </div>
+
+</div>
+
+<script src="js/data.js"></script>
+<script src="js/main.js"></script>
+
+</body>
+</html>
