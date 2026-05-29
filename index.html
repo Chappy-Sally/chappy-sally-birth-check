@@ -1,101 +1,118 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>チャッピー＆サリーのしあわせナビ</title>
-  <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>チャッピー＆サリーのしあわせナビ</title>
+
+<style>
+body{margin:0;padding:20px 14px 40px;background:linear-gradient(180deg,#fff7fb,#fffaf0);font-family:"Hiragino Kaku Gothic ProN",sans-serif;text-align:center;color:#6b4b2a;}
+.wrap{max-width:620px;margin:0 auto;}
+.main-card{width:92%;max-width:620px;margin:0 auto;background:#fff;border-radius:28px;padding:24px 16px 28px;box-shadow:0 6px 18px rgba(0,0,0,.08);}
+h1{color:#8a58e6;font-size:30px;line-height:1.5;margin:0 0 18px;}
+.hero-img{width:90%;max-width:420px;border-radius:22px;margin:12px auto 22px;display:block;box-shadow:0 8px 18px rgba(0,0,0,.12);}
+.desc{color:#7b5b39;font-size:17px;line-height:1.9;}
+button{width:88%;max-width:360px;margin:14px auto 0;display:block;border:none;border-radius:30px;padding:17px 12px;font-size:18px;font-weight:bold;color:white;cursor:pointer;box-shadow:0 4px 12px rgba(0,0,0,.08);}
+.btn-pink{background:linear-gradient(135deg,#f6a6c8,#ec8fc0);}
+.btn-purple{background:linear-gradient(135deg,#c8a8ff,#8fa4ff);}
+.back{background:linear-gradient(135deg,#b8a3ff,#9aa9ff);}
+.menuBackBtn{background:linear-gradient(90deg,#ffd1e6,#ffe8b5);color:#5c3a1e;}
+.hidden{display:none;}
+input{width:88%;max-width:360px;padding:15px;border:2px solid #f3b6d0;border-radius:20px;font-size:17px;box-sizing:border-box;}
+.result-box{background:white;border-radius:24px;padding:20px 16px;margin:20px auto;max-width:500px;color:#df5d97;font-size:17px;font-weight:bold;line-height:1.9;box-shadow:0 4px 12px rgba(0,0,0,.05);white-space:pre-line;}
+.sub-box{background:#fffdf4;border:2px dashed #f3d27a;border-radius:22px;padding:16px 14px;margin:18px auto;max-width:500px;color:#7b5b39;font-size:15px;line-height:1.8;white-space:pre-line;}
+</style>
 </head>
 
 <body>
-  <div class="wrap">
+<div class="wrap">
 
-    <section class="card top-card" id="topArea">
-      <img src="images/cs_birth-lasboss.png" class="top-image" alt="チャッピー＆サリー">
+<div id="menuScreen" class="main-card">
+  <img class="hero-img" src="images/top.png" alt="チャッピー＆サリー">
+  <h1>チャッピー＆サリーの<br>しあわせナビ🌈</h1>
+  <p class="desc">お誕生日から<br>今のしあわせヒントを受け取ろう🐶💕</p>
 
-      <h1>チャッピー＆サリーの<br>しあわせナビ🌈</h1>
+  <button class="btn-pink" onclick="openMy()">私の診断🌿</button>
+  <button class="btn-purple" onclick="location.href='love.html'">相性診断💕</button>
+  <button class="menuBackBtn" onclick="location.href='https://chappy-sally.github.io/chappysally-menu/'">🏠 しあわせメニューに戻る</button>
+</div>
 
-      <p class="lead">
-        お誕生日から<br>
-        あなたの星座と9マスを見て<br>
-        今のしあわせヒントを受け取ろう🐶💕
-      </p>
+<div id="myScreen" class="main-card hidden">
+  <h1>🌈 私のしあわせ診断</h1>
+  <p class="desc">お誕生日から<br>あなたの星座と9マスを見て<br>今のしあわせヒントを受け取ろう🐾</p>
 
-      <label for="birthdate">お誕生日を入れてね</label>
-      <input type="date" id="birthdate">
+  <p class="desc"><b>お誕生日を入れてね</b></p>
+  <input type="date" id="birthday">
 
-      <button type="button" onclick="startDiagnosis()">診断する✨</button>
-      <button class="menuBackBtn"
-onclick="location.href='https://chappy-sally.github.io/chappysally-menu/'">
-🏠 しあわせメニューに戻る
-      </button>
-    </section>
+  <button class="btn-pink" onclick="diagnose()">診断する✨</button>
+  <button class="back" onclick="backMenu()">戻る</button>
+</div>
 
-    <section id="resultArea" class="hidden">
+<div id="resultScreen" class="main-card hidden">
+  <h1>🌈 診断結果</h1>
+  <div id="resultBox" class="result-box"></div>
+  <div id="hintBox" class="sub-box"></div>
+  <button class="back" onclick="backMy()">戻る</button>
+</div>
 
-      <div class="card">
-        <h2>🌟あなたの星座</h2>
-        <img id="zodiacImage" class="zodiac-image" alt="">
-        <h3 id="zodiacName"></h3>
-        <p id="zodiacText"></p>
-      </div>
+</div>
 
-      <div class="card">
-        <h2>🌿9マス診断</h2>
+<script>
+const types={
+  1:["はじまりの人","今日は小さな一歩がしあわせの扉を開く日😊"],
+  2:["やさしさの人","人とのつながりが心をあたためてくれる日💕"],
+  3:["よろこびの人","楽しいことが流れを軽くしてくれる日🌈"],
+  4:["安心の人","土台を整えると心が落ち着く日🌿"],
+  5:["自由の人","いつもと違う選択が流れを変える日✨"],
+  6:["愛の人","自分にもまわりにもやさしさを向ける日💗"],
+  7:["内なる光の人","静かな時間に大切な気づきがある日🌙"],
+  8:["豊かさの人","受け取ることを許すと流れが動く日✨"],
+  9:["完成と手放しの人","手放すことで新しい流れが入る日🌸"]
+};
 
-        <div class="grid">
-          <div id="num1" class="cell">1</div>
-          <div id="num2" class="cell">2</div>
-          <div id="num3" class="cell">3</div>
-          <div id="num4" class="cell">4</div>
-          <div id="num5" class="cell">5</div>
-          <div id="num6" class="cell">6</div>
-          <div id="num7" class="cell">7</div>
-          <div id="num8" class="cell">8</div>
-          <div id="num9" class="cell">9</div>
-        </div>
+function openMy(){menuScreen.classList.add("hidden");myScreen.classList.remove("hidden");window.scrollTo(0,0);}
+function backMenu(){myScreen.classList.add("hidden");menuScreen.classList.remove("hidden");window.scrollTo(0,0);}
+function backMy(){resultScreen.classList.add("hidden");myScreen.classList.remove("hidden");window.scrollTo(0,0);}
 
-        <p class="small" id="numberText"></p>
+function getNumber(dateStr){
+  let sum=dateStr.replaceAll("-","").split("").map(Number).reduce((a,b)=>a+b,0);
+  while(sum>9){sum=String(sum).split("").map(Number).reduce((a,b)=>a+b,0);}
+  return sum;
+}
 
-        <h3 id="mainType"></h3>
-        <p id="pitagorasText"></p>
+function getZodiac(m,d){
+  const signs=[["山羊座",120],["水瓶座",219],["魚座",321],["牡羊座",420],["牡牛座",521],["双子座",622],["蟹座",723],["獅子座",823],["乙女座",923],["天秤座",1024],["蠍座",1123],["射手座",1222],["山羊座",1232]];
+  const md=m*100+d;
+  for(let s of signs){if(md<s[1])return s[0];}
+}
 
-        <div id="subTypes" class="sub-types"></div>
-      </div>
+function diagnose(){
+  const birthday=document.getElementById("birthday").value;
+  if(!birthday){alert("お誕生日を入れてね😊");return;}
 
-      <div class="card">
-        <h2>🐶今のラスボス</h2>
-        <p id="bossText"></p>
-      </div>
+  const d=new Date(birthday);
+  const zodiac=getZodiac(d.getMonth()+1,d.getDate());
+  const num=getNumber(birthday);
+  const type=types[num];
 
-      <div class="card">
-        <h2>✨しあわせヒント</h2>
-        <p id="hintText"></p>
-      </div>
+  myScreen.classList.add("hidden");
+  resultScreen.classList.remove("hidden");
 
-      <div class="card">
-        <p class="lead">
-          もっとやさしく<br>
-          自分を整えたい人へ🌿<br>
-          セッションにも使えるマスター編はこちら🌈
-        </p>
+  resultBox.textContent=`${zodiac} × 9マス ${num}
 
-        <a href="https://ChappySally.base.shop/items/143814276" target="_blank" rel="noopener">
-          <button type="button">マスター編をみてみる✨</button>
-        </a>
+あなたは
+「${type[0]}」タイプです🌈
 
-        <button type="button" class="sub-button" onclick="resetDiagnosis()">もう一度見る🐾</button>
-        <button class="menuBackBtn"
-onclick="location.href='https://chappy-sally.github.io/chappysally-menu/'">
-🏠 しあわせメニューに戻る
-</button>
-      </div>
+${type[1]}`;
 
-    </section>
+  hintBox.textContent=`今日のしあわせヒント🐾
 
-  </div>
+がんばって答えを出すより、
+今の自分が少しホッとする方を
+選んでみてね😊`;
 
-  <script src="js/data.js"></script>
-  <script src="js/main.js"></script>
+  window.scrollTo(0,0);
+}
+</script>
 </body>
 </html>
