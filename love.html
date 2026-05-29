@@ -1,1 +1,129 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>相性しあわせ診断</title>
 
+<style>
+body{margin:0;padding:20px 14px 40px;background:#fff5fb;font-family:"Hiragino Kaku Gothic ProN",sans-serif;text-align:center;color:#6b4b2a;}
+.wrap{max-width:620px;margin:0 auto;}
+.main-card{width:92%;max-width:620px;margin:0 auto;background:#fff;border-radius:28px;padding:24px 16px 28px;box-shadow:0 6px 18px rgba(0,0,0,.08);}
+h1{color:#8a58e6;font-size:28px;line-height:1.5;}
+.desc{color:#7b5b39;font-size:16px;line-height:1.9;}
+.label{color:#8a58e6;font-weight:bold;margin:18px 0 8px;font-size:17px;}
+input{width:88%;max-width:360px;padding:15px;border:2px solid #f3b6d0;border-radius:20px;font-size:17px;box-sizing:border-box;margin-bottom:10px;}
+button{width:88%;max-width:340px;margin:14px auto 0;display:block;border:none;border-radius:30px;padding:16px 12px;font-size:17px;font-weight:bold;color:white;cursor:pointer;background:linear-gradient(135deg,#f6a6c8,#ec8fc0);box-shadow:0 4px 12px rgba(0,0,0,.08);}
+.back{background:linear-gradient(135deg,#b8a3ff,#9aa9ff);}
+.link-btn{background:linear-gradient(135deg,#f7d774,#e6b84d,#fff1a8);color:#7b5b39;}
+.hidden{display:none;}
+.result-box{background:white;border-radius:24px;padding:20px 16px;margin:20px auto;max-width:500px;color:#df5d97;font-size:17px;font-weight:bold;line-height:1.9;box-shadow:0 4px 12px rgba(0,0,0,.05);white-space:pre-line;}
+.sub-box,.promo-box{background:#fffdf4;border:2px dashed #f3d27a;border-radius:22px;padding:16px 14px;margin:18px auto;max-width:500px;color:#7b5b39;font-size:15px;line-height:1.8;white-space:pre-line;}
+</style>
+</head>
+
+<body>
+<div class="wrap">
+
+<div id="inputScreen" class="main-card">
+  <h1>💕 相性しあわせ診断</h1>
+  <p class="desc">ふたりのお誕生日から<br>9マスで相性の流れを見ていくよ😊</p>
+
+  <div class="label">私の誕生日</div>
+  <input type="date" id="myBirthday">
+
+  <div class="label">相手の誕生日</div>
+  <input type="date" id="partnerBirthday">
+
+  <button onclick="diagnoseLove()">診断する💕</button>
+  <button class="back" onclick="location.href='index.html'">戻る</button>
+</div>
+
+<div id="resultScreen" class="main-card hidden">
+  <h1>💕 相性診断結果</h1>
+
+  <div id="resultBox" class="result-box"></div>
+  <div id="hintBox" class="sub-box"></div>
+
+  <div class="promo-box">
+もっとふたりの流れを知りたい時は
+タロットリーディングへ🌈
+
+1枚引き・3枚引き・7枚引きのほか
+相性占いもできるアプリです💕
+  </div>
+
+  <button class="link-btn" onclick="location.href='https://ChappySally.base.shop/items/144938615'">
+    タロットリーディングへ✨
+  </button>
+
+  <button class="back" onclick="backInput()">戻る</button>
+</div>
+
+</div>
+
+<script>
+const types={
+  1:"はじまり",2:"やさしさ",3:"よろこび",4:"安心",5:"自由",6:"愛",7:"内なる光",8:"豊かさ",9:"完成と手放し"
+};
+
+const messages={
+  1:"新しい流れを一緒に作っていける相性です😊",
+  2:"思いやりを大切にすると、心が近づきやすい相性です💕",
+  3:"楽しい会話や笑顔が、ふたりの流れを軽くしてくれます🌈",
+  4:"安心感や信頼を育てることで、関係が整いやすい相性です🌿",
+  5:"自由な距離感を大切にすると、心地よく関われます✨",
+  6:"やさしさと愛情がテーマになりやすい相性です💗",
+  7:"無理に近づくより、静かに理解し合う時間が大切です🌙",
+  8:"一緒に現実を動かしたり、豊かさを育てやすい相性です✨",
+  9:"手放しと受け入れを通して、関係が整いやすい相性です🌸"
+};
+
+function getNumber(dateStr){
+  let sum=dateStr.replaceAll("-","").split("").map(Number).reduce((a,b)=>a+b,0);
+  while(sum>9){sum=String(sum).split("").map(Number).reduce((a,b)=>a+b,0);}
+  return sum;
+}
+
+function diagnoseLove(){
+  const my=myBirthday.value;
+  const partner=partnerBirthday.value;
+
+  if(!my || !partner){
+    alert("ふたりのお誕生日を入れてね😊");
+    return;
+  }
+
+  const myNum=getNumber(my);
+  const partnerNum=getNumber(partner);
+  let loveNum=myNum+partnerNum;
+  while(loveNum>9){loveNum=String(loveNum).split("").map(Number).reduce((a,b)=>a+b,0);}
+
+  inputScreen.classList.add("hidden");
+  resultScreen.classList.remove("hidden");
+
+  resultBox.textContent=`私の9マス：${myNum}（${types[myNum]}）
+相手の9マス：${partnerNum}（${types[partnerNum]}）
+
+ふたりの相性9マス：${loveNum}
+テーマ：${types[loveNum]}
+
+${messages[loveNum]}`;
+
+  hintBox.textContent=`今日のふたりへのヒント🐾
+
+相手の気持ちを決めつけず、
+まずは自分が安心できる関わり方を
+大切にしてみてね😊`;
+
+  window.scrollTo(0,0);
+}
+
+function backInput(){
+  resultScreen.classList.add("hidden");
+  inputScreen.classList.remove("hidden");
+  window.scrollTo(0,0);
+}
+</script>
+</body>
+</html>
