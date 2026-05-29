@@ -187,13 +187,6 @@ button{
   line-height:1.8;
 }
 
-.percent{
-  font-size:34px;
-  color:#df5d97;
-  font-weight:bold;
-  margin:10px 0;
-}
-
 @media(max-width:480px){
   h1{font-size:25px;}
   .desc{font-size:15px;}
@@ -407,11 +400,14 @@ function diagnoseLove(){
   document.getElementById("resultScreen").classList.remove("hidden");
 
   document.getElementById("resultBox").textContent =
-`私の9マス：${myNum}
-相手の9マス：${partnerNum}
+`🌿 私のタイプ
+${typeNames[myType]}
 
-ふたりの相性9マス：${loveNum}
-テーマ：${typeNames[loveNum]}
+✨ 相手のタイプ
+${typeNames[partnerType]}
+
+💗 ふたりのテーマ
+${typeNames[loveNum]}
 
 ${loveMessages[loveNum]}`;
 
