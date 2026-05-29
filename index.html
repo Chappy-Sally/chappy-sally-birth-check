@@ -1,163 +1,448 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>チャッピー＆サリーのしあわせナビ</title>
-  <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>相性しあわせ診断</title>
+
+<style>
+body{
+  margin:0;
+  padding:20px 14px 40px;
+  background:#fff5fb;
+  font-family:"Hiragino Kaku Gothic ProN",sans-serif;
+  text-align:center;
+  color:#6b4b2a;
+}
+
+.wrap{
+  max-width:620px;
+  margin:0 auto;
+}
+
+.main-card{
+  width:92%;
+  max-width:620px;
+  margin:0 auto;
+  background:#fff;
+  border-radius:28px;
+  padding:24px 16px 28px;
+  box-shadow:0 6px 18px rgba(0,0,0,0.08);
+}
+
+h1{
+  color:#8a58e6;
+  font-size:28px;
+  line-height:1.5;
+}
+
+.desc{
+  color:#7b5b39;
+  font-size:16px;
+  line-height:1.9;
+}
+
+.label{
+  color:#8a58e6;
+  font-weight:bold;
+  margin:18px 0 8px;
+  font-size:17px;
+}
+
+input{
+  width:88%;
+  max-width:360px;
+  padding:15px;
+  border:2px solid #f3b6d0;
+  border-radius:20px;
+  font-size:17px;
+  box-sizing:border-box;
+  margin-bottom:10px;
+}
+
+button{
+  width:88%;
+  max-width:340px;
+  margin:14px auto 0;
+  display:block;
+  border:none;
+  border-radius:30px;
+  padding:16px 12px;
+  font-size:17px;
+  font-weight:bold;
+  color:white;
+  cursor:pointer;
+  background:linear-gradient(135deg,#f6a6c8,#ec8fc0);
+  box-shadow:0 4px 12px rgba(0,0,0,0.08);
+}
+
+.back{
+  background:linear-gradient(135deg,#b8a3ff,#9aa9ff);
+}
+
+.link-btn{
+  background:linear-gradient(135deg,#f7d774,#e6b84d,#fff1a8);
+  color:#7b5b39;
+  box-shadow:0 0 18px rgba(255,215,100,0.35);
+}
+
+.hidden{
+  display:none;
+}
+
+.result-box{
+  background:white;
+  border-radius:24px;
+  padding:20px 16px;
+  margin:20px auto;
+  max-width:500px;
+  color:#df5d97;
+  font-size:17px;
+  font-weight:bold;
+  line-height:1.9;
+  box-shadow:0 4px 12px rgba(0,0,0,0.05);
+  white-space:pre-line;
+}
+
+.sub-box,
+.promo-box{
+  background:#fffdf4;
+  border:2px dashed #f3d27a;
+  border-radius:22px;
+  padding:18px 14px;
+  margin:18px auto;
+  max-width:500px;
+  color:#7b5b39;
+  font-size:15px;
+  line-height:1.8;
+  white-space:pre-line;
+}
+
+.promo-title{
+  color:#8a58e6;
+  font-size:17px;
+  font-weight:bold;
+  margin-bottom:10px;
+}
+
+.grid-wrap{
+  display:grid;
+  grid-template-columns:1fr;
+  gap:18px;
+  margin:18px auto;
+}
+
+.grid-card{
+  background:#fff;
+  border-radius:24px;
+  padding:18px 12px;
+  box-shadow:0 4px 12px rgba(0,0,0,0.05);
+}
+
+.grid-title{
+  color:#8a58e6;
+  font-size:20px;
+  font-weight:bold;
+  margin-bottom:14px;
+}
+
+.grid{
+  width:250px;
+  max-width:90%;
+  margin:0 auto 14px;
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:10px;
+}
+
+.cell{
+  aspect-ratio:1/1;
+  border:2px solid #f3b6d0;
+  border-radius:18px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:25px;
+  font-weight:bold;
+  color:#a277b4;
+  background:#fff8fc;
+}
+
+.cell.active{
+  background:linear-gradient(135deg,#fff3a8,#ffd2e8);
+  color:#8a58e6;
+  box-shadow:0 0 12px rgba(246,166,200,0.45);
+}
+
+.type-name{
+  color:#df5d97;
+  font-size:20px;
+  font-weight:bold;
+  margin:12px 0 6px;
+}
+
+.type-text{
+  color:#7b5b39;
+  font-size:15px;
+  line-height:1.8;
+}
+
+@media(max-width:480px){
+  h1{font-size:25px;}
+  .desc{font-size:15px;}
+  button{font-size:16px;}
+  .cell{font-size:22px;}
+}
+</style>
 </head>
 
 <body>
-  <div class="wrap">
 
-    <!-- 最初の選択画面 -->
-    <section class="card top-card" id="menuArea">
-      <img src="images/cs_birth-lasboss.png" class="top-image" alt="チャッピー＆サリー">
+<div class="wrap">
 
-      <h1>チャッピー＆サリーの<br>しあわせナビ🌈</h1>
+<div id="inputScreen" class="main-card">
+  <h1>💕 相性しあわせ診断</h1>
 
-      <p class="lead">
-        お誕生日から<br>
-        今のしあわせヒントを受け取ろう🐶💕<br><br>
-        自分の診断か<br>
-        ふたりの相性診断を選んでね😊
-      </p>
+  <p class="desc">
+    ふたりのお誕生日から<br>
+    9マスで相性の流れを見ていくよ😊
+  </p>
 
-      <button type="button" onclick="openMyDiagnosis()">
-        私の診断🌿
-      </button>
+  <div class="label">私の誕生日</div>
+  <input type="date" id="myBirthday">
 
-      <button type="button" onclick="location.href='love.html'">
-        相性診断💕
-      </button>
+  <div class="label">相手の誕生日</div>
+  <input type="date" id="partnerBirthday">
 
-      <button class="menuBackBtn"
-onclick="location.href='https://chappy-sally.github.io/chappysally-menu/'">
-🏠 しあわせメニューに戻る
-      </button>
-    </section>
+  <button onclick="diagnoseLove()">診断する💕</button>
+  <button class="back" onclick="location.href='index.html'">戻る</button>
+</div>
 
-    <!-- 私の診断画面 -->
-    <section class="card top-card hidden" id="topArea">
-      <img src="images/cs_birth-lasboss.png" class="top-image" alt="チャッピー＆サリー">
+<div id="resultScreen" class="main-card hidden">
+  <h1>💕 相性診断結果</h1>
 
-      <h1>チャッピー＆サリーの<br>しあわせナビ🌈</h1>
+  <div id="resultBox" class="result-box"></div>
 
-      <p class="lead">
-        お誕生日から<br>
-        あなたの星座と9マスを見て<br>
-        今のしあわせヒントを受け取ろう🐶💕
-      </p>
+  <div class="grid-wrap">
+    <div class="grid-card">
+      <div class="grid-title">🌿 私の9マス</div>
+      <div id="myGrid" class="grid"></div>
+      <div id="myType" class="type-name"></div>
+      <div id="myTypeText" class="type-text"></div>
+    </div>
 
-      <label for="birthdate">お誕生日を入れてね</label>
-      <input type="date" id="birthdate">
-
-      <button type="button" onclick="startDiagnosis()">診断する✨</button>
-
-      <button type="button" class="sub-button" onclick="backToMenu()">
-        戻る
-      </button>
-
-      <button class="menuBackBtn"
-onclick="location.href='https://chappy-sally.github.io/chappysally-menu/'">
-🏠 しあわせメニューに戻る
-      </button>
-    </section>
-
-    <!-- 診断結果画面 -->
-    <section id="resultArea" class="hidden">
-
-      <div class="card">
-        <h2>🌟あなたの星座</h2>
-        <img id="zodiacImage" class="zodiac-image" alt="">
-        <h3 id="zodiacName"></h3>
-        <p id="zodiacText"></p>
-      </div>
-
-      <div class="card">
-        <h2>🌿9マス診断</h2>
-
-        <div class="grid">
-          <div id="num1" class="cell">1</div>
-          <div id="num2" class="cell">2</div>
-          <div id="num3" class="cell">3</div>
-          <div id="num4" class="cell">4</div>
-          <div id="num5" class="cell">5</div>
-          <div id="num6" class="cell">6</div>
-          <div id="num7" class="cell">7</div>
-          <div id="num8" class="cell">8</div>
-          <div id="num9" class="cell">9</div>
-        </div>
-
-        <p class="small" id="numberText"></p>
-
-        <h3 id="mainType"></h3>
-        <p id="pitagorasText"></p>
-
-        <div id="subTypes" class="sub-types"></div>
-      </div>
-
-      <div class="card">
-        <h2>🐶今のラスボス</h2>
-        <p id="bossText"></p>
-      </div>
-
-      <div class="card">
-        <h2>✨しあわせヒント</h2>
-        <p id="hintText"></p>
-      </div>
-
-      <div class="card">
-        <p class="lead">
-          もっとやさしく<br>
-          自分を整えたい人へ🌿<br>
-          セッションにも使えるマスター編はこちら🌈
-        </p>
-
-        <a href="https://ChappySally.base.shop/items/143814276" target="_blank" rel="noopener">
-          <button type="button">マスター編をみてみる✨</button>
-        </a>
-
-        <button type="button" class="sub-button" onclick="resetDiagnosis()">もう一度見る🐾</button>
-
-        <button type="button" class="sub-button" onclick="backToMenuFromResult()">
-          最初の画面に戻る🌈
-        </button>
-
-        <button class="menuBackBtn"
-onclick="location.href='https://chappy-sally.github.io/chappysally-menu/'">
-🏠 しあわせメニューに戻る
-        </button>
-      </div>
-
-    </section>
-
+    <div class="grid-card">
+      <div class="grid-title">🌿 相手の9マス</div>
+      <div id="partnerGrid" class="grid"></div>
+      <div id="partnerType" class="type-name"></div>
+      <div id="partnerTypeText" class="type-text"></div>
+    </div>
   </div>
 
-  <script src="js/data.js"></script>
-  <script src="js/main.js"></script>
+  <div id="percentBox" class="result-box"></div>
+  <div id="hintBox" class="sub-box"></div>
 
-  <script>
-    function openMyDiagnosis(){
-      document.getElementById("menuArea").classList.add("hidden");
-      document.getElementById("topArea").classList.remove("hidden");
-      document.getElementById("resultArea").classList.add("hidden");
-      window.scrollTo(0,0);
-    }
+  <div class="promo-box">
+    <div class="promo-title">もっとふたりの流れを知りたい時は🌈</div>
+    1枚引き・3枚引き・7枚引きのほか
+    相性占いもできるアプリです💕
 
-    function backToMenu(){
-      document.getElementById("topArea").classList.add("hidden");
-      document.getElementById("resultArea").classList.add("hidden");
-      document.getElementById("menuArea").classList.remove("hidden");
-      window.scrollTo(0,0);
-    }
+    <button class="link-btn" onclick="location.href='https://ChappySally.base.shop/items/144938615'">
+      タロットリーディングへ✨
+    </button>
+  </div>
 
-    function backToMenuFromResult(){
-      document.getElementById("resultArea").classList.add("hidden");
-      document.getElementById("topArea").classList.add("hidden");
-      document.getElementById("menuArea").classList.remove("hidden");
-      window.scrollTo(0,0);
+  <button class="back" onclick="backInput()">戻る</button>
+</div>
+
+</div>
+
+<script>
+const typeNames = {
+  1:"はじまりタイプ🌱",
+  2:"やさしさタイプ💕",
+  3:"よろこびタイプ🌈",
+  4:"安心タイプ🌿",
+  5:"自由タイプ✨",
+  6:"愛タイプ💗",
+  7:"内なる光タイプ🌙",
+  8:"豊かさタイプ💎",
+  9:"完成と手放しタイプ🌸"
+};
+
+const typeTexts = {
+  1:"新しい流れを作る力があります。まず一歩が魅力になるタイプです。",
+  2:"人の気持ちを大切にできるタイプ。やさしい関わりで安心を育てます。",
+  3:"明るさや楽しさで流れを軽くするタイプ。笑顔がしあわせの鍵です。",
+  4:"落ち着きや安定感を大切にするタイプ。安心できる土台を作れます。",
+  5:"自由な感覚を持つタイプ。変化やひらめきが流れを広げます。",
+  6:"愛情や思いやりを大切にするタイプ。あたたかい空気を作れます。",
+  7:"静かな気づきや直感を持つタイプ。深い理解が魅力です。",
+  8:"現実を動かす力があるタイプ。豊かさを育てる流れを持っています。",
+  9:"受け入れる力と手放す力があるタイプ。大きなやさしさを持っています。"
+};
+
+const loveMessages = {
+  1:"新しい流れを一緒に作っていける相性です😊",
+  2:"思いやりを大切にすると、心が近づきやすい相性です💕",
+  3:"楽しい会話や笑顔が、ふたりの流れを軽くしてくれます🌈",
+  4:"安心感や信頼を育てることで、関係が整いやすい相性です🌿",
+  5:"自由な距離感を大切にすると、心地よく関われます✨",
+  6:"やさしさと愛情がテーマになりやすい相性です💗",
+  7:"無理に近づくより、静かに理解し合う時間が大切です🌙",
+  8:"一緒に現実を動かしたり、豊かさを育てやすい相性です✨",
+  9:"手放しと受け入れを通して、関係が整いやすい相性です🌸"
+};
+
+function countNumbers(dateStr){
+  const counts = {};
+  for(let i=1; i<=9; i++) counts[i] = 0;
+
+  dateStr.replaceAll("-","").split("").forEach(n=>{
+    if(n !== "0"){
+      counts[Number(n)]++;
     }
-  </script>
+  });
+
+  return counts;
+}
+
+function getMainType(counts){
+  let max = 0;
+  let type = 1;
+
+  for(let i=1; i<=9; i++){
+    if(counts[i] > max){
+      max = counts[i];
+      type = i;
+    }
+  }
+
+  return type;
+}
+
+function getNumber(dateStr){
+  let sum = dateStr.replaceAll("-","").split("").map(Number).reduce((a,b)=>a+b,0);
+  while(sum > 9){
+    sum = String(sum).split("").map(Number).reduce((a,b)=>a+b,0);
+  }
+  return sum;
+}
+
+function makeGrid(targetId, counts){
+  const grid = document.getElementById(targetId);
+  grid.innerHTML = "";
+
+  for(let i=1; i<=9; i++){
+    const count = counts[i];
+    const div = document.createElement("div");
+    div.className = count > 0 ? "cell active" : "cell";
+    div.textContent = count > 1 ? `${i}×${count}` : i;
+    grid.appendChild(div);
+  }
+}
+
+function calcPercent(myCounts, partnerCounts, loveNum){
+  let overlap = 0;
+  let difference = 0;
+
+  for(let i=1; i<=9; i++){
+    overlap += Math.min(myCounts[i], partnerCounts[i]);
+    difference += Math.abs(myCounts[i] - partnerCounts[i]);
+  }
+
+  let percent = 55 + overlap * 7 - difference * 2 + loveNum;
+
+  if(percent > 96) percent = 96;
+  if(percent < 42) percent = 42;
+
+  return percent;
+}
+
+function percentAdvice(percent){
+  if(percent >= 85){
+    return "自然に通じ合いやすい流れがあります。安心して、楽しい時間を増やしてみてね💕";
+  }else if(percent >= 70){
+    return "ほどよい違いがあるからこそ、知るほどに育つ相性です。やさしい言葉が鍵になります🌈";
+  }else if(percent >= 55){
+    return "少しペースの違いが出やすいかも。決めつけずに確認すると、安心が育ちやすい相性です🌿";
+  }else{
+    return "違いを感じやすい時もあるかも。でも、無理に合わせすぎず距離感を大切にすると、やさしく整っていきます😊";
+  }
+}
+
+function diagnoseLove(){
+  const my = document.getElementById("myBirthday").value;
+  const partner = document.getElementById("partnerBirthday").value;
+
+  if(!my || !partner){
+    alert("ふたりのお誕生日を入れてね😊");
+    return;
+  }
+
+  const myCounts = countNumbers(my);
+  const partnerCounts = countNumbers(partner);
+
+  const myType = getMainType(myCounts);
+  const partnerType = getMainType(partnerCounts);
+
+  const myNum = getNumber(my);
+  const partnerNum = getNumber(partner);
+
+  let loveNum = myNum + partnerNum;
+  while(loveNum > 9){
+    loveNum = String(loveNum).split("").map(Number).reduce((a,b)=>a+b,0);
+  }
+
+  const percent = calcPercent(myCounts, partnerCounts, loveNum);
+
+  document.getElementById("inputScreen").classList.add("hidden");
+  document.getElementById("resultScreen").classList.remove("hidden");
+
+  document.getElementById("resultBox").textContent =
+`🌿 私のタイプ
+${typeNames[myType]}
+
+✨ 相手のタイプ
+${typeNames[partnerType]}
+
+💗 ふたりのテーマ
+${typeNames[loveNum]}
+
+${loveMessages[loveNum]}`;
+
+  makeGrid("myGrid", myCounts);
+  makeGrid("partnerGrid", partnerCounts);
+
+  document.getElementById("myType").textContent = typeNames[myType];
+  document.getElementById("myTypeText").textContent = typeTexts[myType];
+
+  document.getElementById("partnerType").textContent = typeNames[partnerType];
+  document.getElementById("partnerTypeText").textContent = typeTexts[partnerType];
+
+  document.getElementById("percentBox").textContent =
+`相性のしあわせ度
+
+${percent}%
+
+${percentAdvice(percent)}`;
+
+  document.getElementById("hintBox").textContent =
+`今日のふたりへのヒント🐾
+
+相手の気持ちを決めつけず、
+まずは自分が安心できる関わり方を
+大切にしてみてね😊`;
+
+  window.scrollTo(0,0);
+}
+
+function backInput(){
+  document.getElementById("resultScreen").classList.add("hidden");
+  document.getElementById("inputScreen").classList.remove("hidden");
+  window.scrollTo(0,0);
+}
+</script>
+
 </body>
 </html>
