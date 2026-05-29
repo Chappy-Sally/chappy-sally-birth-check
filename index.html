@@ -10,7 +10,35 @@
 <body>
   <div class="wrap">
 
-    <section class="card top-card" id="topArea">
+    <!-- 最初の選択画面 -->
+    <section class="card top-card" id="menuArea">
+      <img src="images/cs_birth-lasboss.png" class="top-image" alt="チャッピー＆サリー">
+
+      <h1>チャッピー＆サリーの<br>しあわせナビ🌈</h1>
+
+      <p class="lead">
+        お誕生日から<br>
+        今のしあわせヒントを受け取ろう🐶💕<br><br>
+        自分の診断か<br>
+        ふたりの相性診断を選んでね😊
+      </p>
+
+      <button type="button" onclick="openMyDiagnosis()">
+        私の診断🌿
+      </button>
+
+      <button type="button" onclick="location.href='love.html'">
+        相性診断💕
+      </button>
+
+      <button class="menuBackBtn"
+onclick="location.href='https://chappy-sally.github.io/chappysally-menu/'">
+🏠 しあわせメニューに戻る
+      </button>
+    </section>
+
+    <!-- 私の診断画面 -->
+    <section class="card top-card hidden" id="topArea">
       <img src="images/cs_birth-lasboss.png" class="top-image" alt="チャッピー＆サリー">
 
       <h1>チャッピー＆サリーの<br>しあわせナビ🌈</h1>
@@ -25,12 +53,18 @@
       <input type="date" id="birthdate">
 
       <button type="button" onclick="startDiagnosis()">診断する✨</button>
+
+      <button type="button" class="sub-button" onclick="backToMenu()">
+        戻る
+      </button>
+
       <button class="menuBackBtn"
 onclick="location.href='https://chappy-sally.github.io/chappysally-menu/'">
 🏠 しあわせメニューに戻る
       </button>
     </section>
 
+    <!-- 診断結果画面 -->
     <section id="resultArea" class="hidden">
 
       <div class="card">
@@ -85,10 +119,15 @@ onclick="location.href='https://chappy-sally.github.io/chappysally-menu/'">
         </a>
 
         <button type="button" class="sub-button" onclick="resetDiagnosis()">もう一度見る🐾</button>
+
+        <button type="button" class="sub-button" onclick="backToMenuFromResult()">
+          最初の画面に戻る🌈
+        </button>
+
         <button class="menuBackBtn"
 onclick="location.href='https://chappy-sally.github.io/chappysally-menu/'">
 🏠 しあわせメニューに戻る
-</button>
+        </button>
       </div>
 
     </section>
@@ -97,5 +136,28 @@ onclick="location.href='https://chappy-sally.github.io/chappysally-menu/'">
 
   <script src="js/data.js"></script>
   <script src="js/main.js"></script>
+
+  <script>
+    function openMyDiagnosis(){
+      document.getElementById("menuArea").classList.add("hidden");
+      document.getElementById("topArea").classList.remove("hidden");
+      document.getElementById("resultArea").classList.add("hidden");
+      window.scrollTo(0,0);
+    }
+
+    function backToMenu(){
+      document.getElementById("topArea").classList.add("hidden");
+      document.getElementById("resultArea").classList.add("hidden");
+      document.getElementById("menuArea").classList.remove("hidden");
+      window.scrollTo(0,0);
+    }
+
+    function backToMenuFromResult(){
+      document.getElementById("resultArea").classList.add("hidden");
+      document.getElementById("topArea").classList.add("hidden");
+      document.getElementById("menuArea").classList.remove("hidden");
+      window.scrollTo(0,0);
+    }
+  </script>
 </body>
 </html>
